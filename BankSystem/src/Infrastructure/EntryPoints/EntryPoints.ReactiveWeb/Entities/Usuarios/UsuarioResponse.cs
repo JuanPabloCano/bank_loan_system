@@ -3,12 +3,12 @@
 namespace EntryPoints.ReactiveWeb.Entities.Usuarios;
 
 /// <summary>
-/// Clase de respuesta de entidad Usuario
+/// Clase de respuesta de entidad <see cref="Usuario"/>
 /// </summary>
 public class UsuarioResponse
 {
     /// <summary>
-    /// Metodo que retorna un Usuario
+    /// Metodo que retorna una entidad de tipo <see cref="Usuario"/>
     /// </summary>
     /// <param name="id"></param>
     /// <param name="usuario"></param>

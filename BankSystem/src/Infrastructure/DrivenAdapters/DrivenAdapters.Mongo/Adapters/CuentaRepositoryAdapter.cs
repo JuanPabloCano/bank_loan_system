@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain.Model.Entities.Cuenta;
 using Domain.Model.Entities.Gateway;
+using Domain.Model.Entities.Usuario;
 using Domain.Model.ValueObjects;
 using DrivenAdapters.Mongo.Entities.Cuentas;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace DrivenAdapters.Mongo.Adapters;
@@ -16,13 +17,16 @@ namespace DrivenAdapters.Mongo.Adapters;
 public class CuentaRepositoryAdapter : ICuentaRepository
 {
     private readonly IMongoCollection<CuentaData> _mongoCuentaCollection;
+    private readonly IUsuarioRepository _usuarioRepository;
 
     /// <summary>
     /// Crea una instancia del repositorio <see cref="CuentaRepositoryAdapter"/>
     /// </summary>
     /// <param name="mongoDb"></param>
-    public CuentaRepositoryAdapter(IContext mongoDb)
+    /// <param name="usuarioRepository"></param>
+    public CuentaRepositoryAdapter(IContext mongoDb, IUsuarioRepository usuarioRepository)
     {
+        _usuarioRepository = usuarioRepository;
         _mongoCuentaCollection = mongoDb.Cuentas;
     }
 
@@ -56,17 +60,37 @@ public class CuentaRepositoryAdapter : ICuentaRepository
     /// <returns></returns>
     public async Task<Cuenta> ObtenerEntidadPorIdAsync(string entityId)
     {
-        var cuenta = await _mongoCuentaCollection.FindAsync(data => data.Id == entityId);
-        return cuenta.FirstAsync().Result.AsEntity();
+        var cuentaData = await _mongoCuentaCollection.FindAsync(data => data.Id == entityId);
+        var cuenta = cuentaData.FirstAsync().Result.AsEntity();
+        var usuario = await _usuarioRepository.ObtenerEntidadPorIdAsync(cuenta.UsuarioId);
+
+        Usuario usuarioSeleccionado = new(usuario.Id, usuario.Nombre, usuario.Apellido, usuario.Cedula, usuario.Correo,
+            usuario.Edad, usuario.Profesion);
+
+        cuenta.Usuario = usuarioSeleccionado;
+
+        return cuenta;
     }
 
-    public Task EliminarAsync(string entityId)
-    {
-        throw new System.NotImplementedException();
-    }
+    /// <summary>
+    /// <see cref="ICuentaRepository.EliminarAsync"/>
+    /// </summary>
+    /// <param name="entityId"></param>
+    public async Task EliminarAsync(string entityId) =>
+        await _mongoCuentaCollection.FindOneAndDeleteAsync(cuenta => cuenta.Id == entityId);
 
-    public Task<Cuenta> ActualizarPorIdAsync(string entityId, Cuenta entity)
+    /// <summary>
+    /// <see cref="ICuentaRepository.ActualizarPorIdAsync"/>
+    /// </summary>
+    /// <param name="entityId"></param>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public async Task<Cuenta> ActualizarPorIdAsync(string entityId, Cuenta entity)
     {
-        throw new System.NotImplementedException();
+        CuentaData cuentaData = new(entityId, entity.UsuarioId, entity.Banco, entity.CapacidadEndeudamiento);
+        var cuentaActualizada =
+            await _mongoCuentaCollection.FindOneAndReplaceAsync(cuenta => cuenta.Id == entityId, cuentaData);
+
+        return cuentaActualizada.AsEntity();
     }
 }

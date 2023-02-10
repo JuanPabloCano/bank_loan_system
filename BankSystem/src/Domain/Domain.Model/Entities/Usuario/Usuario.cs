@@ -38,7 +38,14 @@ public class Usuario
     /// <summary>
     /// Profesion
     /// </summary>
-    public string Profesion { get; private set; }
+    public string Profesion { get; set; }
+
+    /// <summary>
+    /// Constructor vacio
+    /// </summary>
+    public Usuario()
+    {
+    }
 
     /// <summary>
     /// Crea una instancia con todos los atributos

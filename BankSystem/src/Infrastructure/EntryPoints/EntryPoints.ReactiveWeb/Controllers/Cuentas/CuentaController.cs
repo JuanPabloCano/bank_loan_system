@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Domain.Model.Entities.Cuenta;
 using Domain.UseCase.Common;
 using Domain.UseCase.Cuentas;
@@ -62,4 +63,44 @@ public class CuentaController : AppControllerBase<CuentaController>
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> ObtenerCuentaPorId([FromQuery] string id) =>
         await HandleRequest(async () => await _cuentaUseCase.ObtenerEntidadPorId(id), "");
+
+    /// <summary>
+    /// Endpoint que actualiza una entidad de tipo <see cref="Cuenta"/> por Id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="cuentaRequest"></param>
+    /// <returns></returns>
+    [HttpPatch("id")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> ActualizarCuentaPorId([FromQuery] string id,
+        [FromBody] CuentaRequest cuentaRequest)
+    {
+        return await HandleRequest(async () =>
+        {
+            var cuenta = cuentaRequest.AsEntity();
+            await _cuentaUseCase.ActualizarPorId(id, cuenta);
+            return CuentaResponse.Exec(id, cuenta);
+        }, "");
+    }
+
+
+    /// <summary>
+    /// Endpoint que elimina una entidad de tipo <see cref="Cuenta"/> por su Id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpDelete("id")]
+    [ProducesResponseType(400, Type = typeof(IEnumerable<Cuenta>))]
+    public async Task<IActionResult> EliminarCuentaPorId([FromQuery] string id)
+    {
+        return await HandleRequest(async () =>
+        {
+            await _cuentaUseCase.EliminarPorId(id);
+            return new
+            {
+                status = NoContent(),
+                message = "Cuenta eliminada satisfactoriamente"
+            };
+        }, "");
+    }
 }

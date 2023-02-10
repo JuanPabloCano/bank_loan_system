@@ -7,6 +7,7 @@ namespace DrivenAdapters.Mongo.Entities.Usuarios;
 /// <summary>
 /// Usuario DTO 
 /// </summary>
+[BsonIgnoreExtraElements]
 public class UsuarioData : EntityBase, IDomainEntity<Usuario>
 {
     /// <summary>
@@ -44,6 +45,13 @@ public class UsuarioData : EntityBase, IDomainEntity<Usuario>
     /// </summary>
     [BsonElement("profesion")]
     public string Profesion { get; set; }
+
+    /// <summary>
+    /// Constructor vacio
+    /// </summary>
+    public UsuarioData()
+    {
+    }
 
     /// <summary>
     /// Crea una instancia con todos los atributos

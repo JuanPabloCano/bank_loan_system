@@ -1,4 +1,5 @@
-﻿using Domain.Model.ValueObjects;
+﻿using System.Text.Json.Serialization;
+using Domain.Model.ValueObjects;
 
 namespace Domain.Model.Entities.Cuenta;
 
@@ -26,6 +27,18 @@ public class Cuenta
     /// Capacidad de endeudamiento
     /// </summary>
     public int CapacidadEndeudamiento { get; private set; }
+
+    /// <summary>
+    /// Propiedad virtual de la entidad <see cref="Usuario"/>
+    /// </summary>
+    public virtual Usuario.Usuario Usuario { get; set; }
+
+    /// <summary>
+    /// Constructor vacio
+    /// </summary>
+    public Cuenta()
+    {
+    }
 
     /// <summary>
     /// Crea una instancia de la clase Cuenta con todos los atributos

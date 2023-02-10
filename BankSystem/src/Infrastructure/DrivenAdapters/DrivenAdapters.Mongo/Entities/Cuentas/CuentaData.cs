@@ -1,19 +1,23 @@
 ﻿using Domain.Model.Entities.Cuenta;
+using Domain.Model.Entities.Usuario;
 using Domain.Model.ValueObjects;
 using DrivenAdapters.Mongo.Entities.Base;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 
 namespace DrivenAdapters.Mongo.Entities.Cuentas;
 
 /// <summary>
 /// Cuenta DTO
 /// </summary>
+[BsonIgnoreExtraElements]
 public class CuentaData : EntityBase, IDomainEntity<Cuenta>
 {
     /// <summary>
     /// Usuario Id
     /// </summary>
+    [JsonProperty("usuarioId")]
     [BsonElement("usuarioId")]
     [BsonRepresentation(BsonType.ObjectId)]
     public string UsuarioId { get; set; }
@@ -28,6 +32,13 @@ public class CuentaData : EntityBase, IDomainEntity<Cuenta>
     /// </summary>
     [BsonElement("capacidad_endeudamiento")]
     public int CapacidadEndeudamiento { get; set; }
+
+    /// <summary>
+    /// Constructor vacio
+    /// </summary>
+    public CuentaData()
+    {
+    }
 
     /// <summary>
     /// Crea una instancia con todos los atributos

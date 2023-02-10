@@ -55,13 +55,35 @@ public class CuentaUseCase : ICuentaUseCase
     public async Task<Cuenta> ObtenerEntidadPorId(string entityId) =>
         await _cuentaRepository.ObtenerEntidadPorIdAsync(entityId);
 
-    public Task<Cuenta> ActualizarPorId(string entityId, Cuenta entity)
+    /// <summary>
+    /// <see cref="ICuentaUseCase.ActualizarPorId"/>
+    /// </summary>
+    /// <param name="entityId"></param>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    /// <exception cref="BusinessException"></exception>
+    public async Task<Cuenta> ActualizarPorId(string entityId, Cuenta entity)
     {
-        throw new System.NotImplementedException();
+        var cuentaSeleccionada = await ObtenerEntidadPorId(entityId);
+        EntidadNoEncontrada<Cuenta>.Apply(cuentaSeleccionada,
+            TipoExcepcionNegocio.ErrorEntidadNoEncontrada.GetDescription(),
+            (int)TipoExcepcionNegocio.ErrorEntidadNoEncontrada);
+
+        return await _cuentaRepository.ActualizarPorIdAsync(entityId, entity);
     }
 
-    public Task EliminarPorId(string entityId)
+    /// <summary>
+    /// <see cref="ICuentaUseCase.EliminarPorId"/>
+    /// </summary>
+    /// <param name="entityId"></param>
+    public async Task EliminarPorId(string entityId)
     {
-        throw new System.NotImplementedException();
+        var cuentaSeleccionada = await ObtenerEntidadPorId(entityId);
+
+        EntidadNoEncontrada<Cuenta>.Apply(cuentaSeleccionada,
+            TipoExcepcionNegocio.ErrorEntidadNoEncontrada.GetDescription(),
+            (int)TipoExcepcionNegocio.ErrorEntidadNoEncontrada);
+
+        await _cuentaRepository.EliminarAsync(cuentaSeleccionada.Id);
     }
 }

@@ -33,7 +33,7 @@ public class UsuarioUseCase : IUsuarioUseCase
     /// <exception cref="BusinessException"></exception>
     public async Task<Usuario> Crear(Usuario entity)
     {
-        EntidadInvalida(entity, TipoExcepcionNegocio.ErrorEntidadInvalida.GetDescription(),
+        EntidadNoEncontrada<Usuario>.Apply(entity, TipoExcepcionNegocio.ErrorEntidadInvalida.GetDescription(),
             (int)TipoExcepcionNegocio.ErrorEntidadInvalida);
 
         EdadEntidadInvalida(entity, TipoExcepcionNegocio.ErrorEdadEntidadIlegal.GetDescription(),
@@ -59,7 +59,8 @@ public class UsuarioUseCase : IUsuarioUseCase
     {
         var usuarioSeleccionado = await _usuarioRepository.ObtenerEntidadPorIdAsync(entityId);
 
-        EntidadInvalida(usuarioSeleccionado, TipoExcepcionNegocio.ErrorEntidadNoEncontrada.GetDescription(),
+        EntidadNoEncontrada<Usuario>.Apply(usuarioSeleccionado,
+            TipoExcepcionNegocio.ErrorEntidadNoEncontrada.GetDescription(),
             (int)TipoExcepcionNegocio.ErrorEntidadNoEncontrada);
         return usuarioSeleccionado;
     }
@@ -74,7 +75,8 @@ public class UsuarioUseCase : IUsuarioUseCase
     {
         var usuarioSeleccionado = await ObtenerEntidadPorId(entityId);
 
-        EntidadInvalida(usuarioSeleccionado, TipoExcepcionNegocio.ErrorEntidadNoEncontrada.GetDescription(),
+        EntidadNoEncontrada<Usuario>.Apply(usuarioSeleccionado,
+            TipoExcepcionNegocio.ErrorEntidadNoEncontrada.GetDescription(),
             (int)TipoExcepcionNegocio.ErrorEntidadNoEncontrada);
 
         EdadEntidadInvalida(entity, TipoExcepcionNegocio.ErrorEdadEntidadIlegal.GetDescription(),
@@ -90,17 +92,12 @@ public class UsuarioUseCase : IUsuarioUseCase
     public async Task EliminarPorId(string entityId)
     {
         var usuarioSeleccionado = await ObtenerEntidadPorId(entityId);
-        EntidadInvalida(usuarioSeleccionado, TipoExcepcionNegocio.ErrorEntidadNoEncontrada.GetDescription(),
+        
+        EntidadNoEncontrada<Usuario>.Apply(usuarioSeleccionado,
+            TipoExcepcionNegocio.ErrorEntidadNoEncontrada.GetDescription(),
             (int)TipoExcepcionNegocio.ErrorEntidadNoEncontrada);
+        
         await _usuarioRepository.EliminarAsync(usuarioSeleccionado.Id);
-    }
-
-    private static void EntidadInvalida(Usuario entity, string message, int code)
-    {
-        if (entity is null)
-        {
-            throw new BusinessException(message, code);
-        }
     }
 
     private static void EdadEntidadInvalida(Usuario entity, string message, int code)

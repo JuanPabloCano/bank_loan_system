@@ -1,4 +1,5 @@
-﻿using Domain.Model.Entities.Gateway.Base;
+﻿using System.Threading.Tasks;
+using Domain.Model.Entities.Gateway.Base;
 
 namespace Domain.Model.Entities.Gateway;
 
