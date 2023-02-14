@@ -1,7 +1,7 @@
 ﻿namespace Domain.Model.ValueObjects;
 
 /// <summary>
-/// Clase Banco
+/// Objeto de valor Banco
 /// </summary>
 public class Banco
 {

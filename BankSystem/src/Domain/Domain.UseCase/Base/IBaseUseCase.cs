@@ -1,5 +1,4 @@
-﻿using Domain.Model.Interfaces;
-using Domain.Model.Interfaces.UseCaseCommons;
+﻿using Domain.Model.Interfaces.UseCaseCommons;
 
 namespace Domain.UseCase.Base;
 

@@ -35,6 +35,18 @@ namespace Helpers.Commons.Exceptions
         /// Tipo de excepcion no controlada
         /// </summary>
         [Description("La capacidad de endeudamiento no puede ser 0")]
-        ErrorCapacidadEndeudamientoInvalida = 120,
+        ErrorCapacidadEndeudamientoIgualCero = 120,
+        
+        /// <summary>
+        /// Tipo de excepcion no controlada
+        /// </summary>
+        [Description("La deuda actual ya se encuentra pagada")]
+        ErrorDeudaActualPagada = 130,
+
+        /// <summary>
+        ///  Tipo de excepcion no controlada
+        /// </summary>
+        [Description("La deuda actual supera la capacidad de endeudamiento")]
+        ErrorCapacidadEndeudamientoInvalida = 140,
     }
 }

@@ -1,5 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
+using Domain.Model.Entities.Credito;
+using Domain.Model.Entities.Cuenta;
+using Domain.Model.Entities.Pago;
+using Domain.Model.Entities.Usuario;
+using DrivenAdapters.Mongo.Entities.Creditos;
 using DrivenAdapters.Mongo.Entities.Cuentas;
+using DrivenAdapters.Mongo.Entities.Pagos;
 using DrivenAdapters.Mongo.Entities.Usuarios;
 using MongoDB.Driver;
 
@@ -25,13 +31,23 @@ namespace DrivenAdapters.Mongo
         }
 
         /// <summary>
-        /// Tipo Contrato Usuarios
+        /// Tipo Contrato <see cref="Usuario"/>
         /// </summary>
         public IMongoCollection<UsuarioData> Usuarios => _database.GetCollection<UsuarioData>("Usuarios");
 
         /// <summary>
-        /// Tipo Contrato Cuentas
+        /// Tipo Contrato <see cref="Cuenta"/>
         /// </summary>
         public IMongoCollection<CuentaData> Cuentas => _database.GetCollection<CuentaData>("Cuentas");
+
+        /// <summary>
+        /// Tipo contrato <see cref="Credito"/>
+        /// </summary>
+        public IMongoCollection<CreditoData> Creditos => _database.GetCollection<CreditoData>("Creditos");
+
+        /// <summary>
+        /// Tipo de contrato <see cref="Pago"/>
+        /// </summary>
+        public IMongoCollection<PagoData> Pagos => _database.GetCollection<PagoData>("Pagos");
     }
 }

@@ -39,7 +39,7 @@ public class Cuenta
     public Cuenta()
     {
     }
-
+    
     /// <summary>
     /// Crea una instancia de la clase Cuenta con todos los atributos
     /// </summary>
@@ -56,8 +56,8 @@ public class Cuenta
     }
 
     /// <summary>
-    /// Metodo para agregar capacidad de endeudamiento
+    /// Metodo para disminuir capacidad de endeudamiento
     /// </summary>
     /// <param name="total"></param>
-    public void AñadirCapacidadEndeudamiento(int total) => CapacidadEndeudamiento = total;
+    public void DisminuirCapacidadEndeudamiento(int total) => CapacidadEndeudamiento -= total;
 }

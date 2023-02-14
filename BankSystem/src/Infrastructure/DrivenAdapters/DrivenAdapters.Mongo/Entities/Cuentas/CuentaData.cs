@@ -1,5 +1,4 @@
 ﻿using Domain.Model.Entities.Cuenta;
-using Domain.Model.Entities.Usuario;
 using Domain.Model.ValueObjects;
 using DrivenAdapters.Mongo.Entities.Base;
 using MongoDB.Bson;

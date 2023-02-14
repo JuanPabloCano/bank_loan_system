@@ -9,7 +9,7 @@ using Helpers.ObjectsUtils.Extensions;
 namespace Domain.UseCase.Cuentas;
 
 /// <summary>
-/// Caso de uso para entidad Cuenta
+/// Caso de uso para entidad <see cref="Cuenta"/>
 /// </summary>
 public class CuentaUseCase : ICuentaUseCase
 {
@@ -34,8 +34,8 @@ public class CuentaUseCase : ICuentaUseCase
     {
         if (entity.CapacidadEndeudamiento == 0)
         {
-            throw new BusinessException(TipoExcepcionNegocio.ErrorCapacidadEndeudamientoInvalida.GetDescription(),
-                (int)TipoExcepcionNegocio.ErrorCapacidadEndeudamientoInvalida);
+            throw new BusinessException(TipoExcepcionNegocio.ErrorCapacidadEndeudamientoIgualCero.GetDescription(),
+                (int)TipoExcepcionNegocio.ErrorCapacidadEndeudamientoIgualCero);
         }
 
         return await _cuentaRepository.CrearAsync(entity);
@@ -64,8 +64,7 @@ public class CuentaUseCase : ICuentaUseCase
     /// <exception cref="BusinessException"></exception>
     public async Task<Cuenta> ActualizarPorId(string entityId, Cuenta entity)
     {
-        var cuentaSeleccionada = await ObtenerEntidadPorId(entityId);
-        EntidadNoEncontrada<Cuenta>.Apply(cuentaSeleccionada,
+        EntidadNoEncontrada<Cuenta>.Apply(entity,
             TipoExcepcionNegocio.ErrorEntidadNoEncontrada.GetDescription(),
             (int)TipoExcepcionNegocio.ErrorEntidadNoEncontrada);
 

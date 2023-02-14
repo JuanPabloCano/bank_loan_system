@@ -3,7 +3,9 @@ using BankSystem.AppServices.Automapper;
 using credinet.comun.api;
 using Domain.Model.Entities.Gateway;
 using Domain.UseCase.Common;
+using Domain.UseCase.Creditos;
 using Domain.UseCase.Cuentas;
+using Domain.UseCase.Pagos;
 using Domain.UseCase.Usuarios;
 using DrivenAdapters.Mongo;
 using DrivenAdapters.Mongo.Adapters;
@@ -49,38 +51,6 @@ namespace BankSystem.AppServices.Extensions
             string db) =>
             services.AddSingleton<IContext>(provider => new Context(connectionString, db));
 
-        // /// <summary>
-        // /// Registro del blobstorage
-        // /// </summary>
-        // /// <param name="services">Contenedor de servicios</param>
-        // /// <param name="connectionString">cadena de conexion del storage</param>
-        // /// <param name="containerName">nombre del contenedor del storage</param>
-        // /// <returns></returns>
-        // public static IServiceCollection RegisterBlobstorage(this IServiceCollection services, string connectionString, string containerName)
-        // {
-        //     //Blob storage
-        //     //TODO: Buscar si existe mejor implementacion de la DI
-        //     services.AddSingleton<IBlobStorage>(provider => new BlobStorage(containerName, connectionString));
-        //     return services;
-        // }
-        //
-        // /// <summary>
-        // ///   Método para registrar Redis Cache
-        // /// </summary>
-        // /// <param name="services">services.</param>
-        // /// <param name="connectionString">connection string.</param>
-        // /// <param name="dbNumber">database number.</param>
-        // /// <returns></returns>
-        // public static IServiceCollection RegisterRedis(this IServiceCollection services, string connectionString, int dbNumber)
-        // {
-        //     services.AddSingleton(s => LazyConnection(connectionString).Value.GetDatabase(dbNumber));
-        //
-        //     ConnectionMultiplexer multiplexer = ConnectionMultiplexer.Connect(connectionString,
-        //         opt => opt.DefaultDatabase = dbNumber);
-        //     services.AddSingleton<IConnectionMultiplexer>(multiplexer);
-        //
-        //     return services;
-        // }
 
         /// <summary>
         /// Método para registrar los servicios
@@ -99,6 +69,8 @@ namespace BankSystem.AppServices.Extensions
 
             services.AddScoped<IUsuarioRepository, UsuarioRepositoryAdapter>();
             services.AddScoped<ICuentaRepository, CuentaRepositoryAdapter>();
+            services.AddScoped<ICreditoRepository, CreditoRepositoryAdapter>();
+            services.AddScoped<IPagoRepository, PagoRepositoryAdapter>();
 
             #endregion Adaptadores
 
@@ -107,21 +79,12 @@ namespace BankSystem.AppServices.Extensions
             services.AddScoped<IManageEventsUseCase, ManageEventsUseCase>();
             services.AddScoped<IUsuarioUseCase, UsuarioUseCase>();
             services.AddScoped<ICuentaUseCase, CuentaUseCase>();
+            services.AddScoped<ICreditoUseCase, CreditoUseCase>();
+            services.AddScoped<IPagoUseCase, PagoUseCase>();
 
             #endregion UseCases
 
             return services;
         }
-
-        // /// <summary>
-        // ///   Lazies the connection.
-        // /// </summary>
-        // /// <param name="connectionString">connection string.</param>
-        // /// <returns></returns>
-        // private static Lazy<ConnectionMultiplexer> LazyConnection(string connectionString) =>
-        //     new(() =>
-        //     {
-        //         return ConnectionMultiplexer.Connect(connectionString);
-        //     });
     }
 }

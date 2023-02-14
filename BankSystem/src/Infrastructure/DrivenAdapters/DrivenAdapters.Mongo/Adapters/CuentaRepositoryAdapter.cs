@@ -12,7 +12,7 @@ using MongoDB.Driver;
 namespace DrivenAdapters.Mongo.Adapters;
 
 /// <summary>
-///  Adaptador de entidad Cuenta
+///  Adaptador de entidad <see cref="Cuenta"/>
 /// </summary>
 public class CuentaRepositoryAdapter : ICuentaRepository
 {
