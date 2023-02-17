@@ -30,13 +30,13 @@ namespace Helpers.Commons.Exceptions
         /// </summary>
         [Description("Excepción de negocio no controlada")]
         ExceptionNoControlada = 555,
-        
+
         /// <summary>
         /// Tipo de excepcion no controlada
         /// </summary>
-        [Description("La capacidad de endeudamiento no puede ser 0")]
-        ErrorCapacidadEndeudamientoIgualCero = 120,
-        
+        [Description("La capacidad de endeudamiento no puede ser igual o menor que 0")]
+        ErrorCapacidadEndeudamientoMenorOIgualCero = 120,
+
         /// <summary>
         /// Tipo de excepcion no controlada
         /// </summary>

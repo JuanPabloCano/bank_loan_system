@@ -1,10 +1,11 @@
 ﻿using credinet.exception.middleware.models;
+using Domain.Model.Entities.Cuenta;
 using Domain.Model.Entities.Gateway;
 using Domain.Model.Entities.Usuario;
 using Domain.Model.Tests.Builders;
 using Domain.UseCase.Usuarios;
 using Helpers.Commons.Exceptions;
-using Helpers.ObjectsUtils.Tests.Factories.Usuario;
+using Helpers.ObjectsUtils.Tests.Factories.Usuarios;
 using Moq;
 using Xunit;
 
@@ -119,6 +120,33 @@ public class UsuariosUseCaseTest
         Assert.Equal((int)TipoExcepcionNegocio.ErrorEdadEntidadIlegal, businessException.code);
     }
 
+    [Theory]
+    [InlineData("15262", "Juan", "Cano", "62531938", "juan@gmail.com", 26, "Desarrollador")]
+    [InlineData("73484", "Ines", "Sald", "42562383", "ines@gmail.com", 52, "Ama de casa")]
+    public async Task Actualizar_Usuario_Exitoso(string id, string nombre, string apellido,
+        string cedula, string correo, int edad, string profesion)
+    {
+        var usuario = UsuarioFactoryTest.ObtenerUsuarioTest(id, nombre, apellido, cedula, correo, edad, profesion);
+
+        var usuarioActualizar = new UsuarioBuilderTest()
+            .SetId(usuario.Id)
+            .SetNombre(usuario.Nombre)
+            .SetApellido("Villegas")
+            .Build();
+
+        _mockUsuarioRepository
+            .Setup(repository => repository.ActualizarPorIdAsync(usuario.Id, It.IsAny<Usuario>()))
+            .ReturnsAsync(usuarioActualizar);
+
+        var usuarioActualizado = await _usuarioUseCase.ActualizarPorId(usuario.Id, usuarioActualizar);
+
+        _mockRepository.VerifyAll();
+        Assert.NotNull(usuarioActualizado);
+        Assert.NotNull(usuarioActualizado.Nombre);
+        Assert.Equal(usuarioActualizado.Id, usuarioActualizado.Id);
+        Assert.IsType<Usuario>(usuarioActualizado);
+    }
+
     #region Private Methods
 
     private static List<Usuario> ListarUsuariosTest() => new()
@@ -143,5 +171,5 @@ public class UsuariosUseCaseTest
             .Build()
     };
 
-    #endregion
+    #endregion Private Methods
 }

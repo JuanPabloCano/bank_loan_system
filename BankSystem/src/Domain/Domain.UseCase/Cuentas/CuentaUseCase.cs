@@ -32,10 +32,10 @@ public class CuentaUseCase : ICuentaUseCase
     /// <exception cref="BusinessException"></exception>
     public async Task<Cuenta> Crear(Cuenta entity)
     {
-        if (entity.CapacidadEndeudamiento == 0)
+        if (entity.CapacidadEndeudamiento <= 0)
         {
-            throw new BusinessException(TipoExcepcionNegocio.ErrorCapacidadEndeudamientoIgualCero.GetDescription(),
-                (int)TipoExcepcionNegocio.ErrorCapacidadEndeudamientoIgualCero);
+            throw new BusinessException(TipoExcepcionNegocio.ErrorCapacidadEndeudamientoMenorOIgualCero.GetDescription(),
+                (int)TipoExcepcionNegocio.ErrorCapacidadEndeudamientoMenorOIgualCero);
         }
 
         return await _cuentaRepository.CrearAsync(entity);

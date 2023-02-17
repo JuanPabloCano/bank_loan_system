@@ -1,8 +1,9 @@
 ﻿using Domain.Model.Entities.Usuario;
+using Domain.Model.Tests.Builders;
 using DrivenAdapters.Mongo.Adapters;
 using DrivenAdapters.Mongo.Entities.Usuarios;
 using DrivenAdapters.Mongo.Tests.Builders;
-using Helpers.ObjectsUtils.Tests.Factories.Usuario;
+using Helpers.ObjectsUtils.Tests.Factories.Usuarios;
 using MongoDB.Driver;
 using Moq;
 using Xunit;
@@ -95,6 +96,36 @@ public class UsuarioRepositoryAdapterTest
         Assert.IsType<Usuario>(usuario);
     }
 
+    [Theory]
+    [InlineData("15262", "Juan", "Cano", "62531938", "juan@gmail.com", 26, "Desarrollador")]
+    [InlineData("73484", "Ines", "Sald", "42562383", "ines@gmail.com", 52, "Ama de casa")]
+    public async Task Actualizar_Usuario_Exitoso(string id, string nombre, string apellido,
+        string cedula, string correo, int edad, string profesion)
+    {
+        var usuario =
+            UsuarioFactoryTest.ObtenerUsuarioTest(id, nombre, apellido, cedula, correo, edad, profesion);
+
+        var usuarioActualizar = new UsuarioBuilderTest()
+            .SetId(usuario.Id)
+            .SetNombre("Carmen")
+            .SetApellido("Villagran")
+            .Build();
+
+        _mockColeccionUsuario.Setup(usuarioData => usuarioData.FindOneAndReplaceAsync(
+            It.IsAny<FilterDefinition<UsuarioData>>(),
+            It.IsAny<UsuarioData>(),
+            It.IsAny<FindOneAndReplaceOptions<UsuarioData>>(),
+            It.IsAny<CancellationToken>()));
+
+        _mockContext.Setup(context => context.Usuarios).Returns(_mockColeccionUsuario.Object);
+
+        var usuarioRepository = new UsuarioRepositoryAdapter(_mockContext.Object);
+
+        var usuarioActualizado = await usuarioRepository.ActualizarPorIdAsync(usuario.Id, usuarioActualizar);
+
+        Assert.NotNull(usuarioActualizado);
+        Assert.Equal(usuarioActualizar.Id, usuarioActualizado.Id);
+    }
 
     #region Private Methods
 
@@ -120,5 +151,5 @@ public class UsuarioRepositoryAdapterTest
             .Build()
     };
 
-    #endregion
+    #endregion Private Methods
 }

@@ -73,9 +73,7 @@ public class UsuarioUseCase : IUsuarioUseCase
     /// <returns></returns>
     public async Task<Usuario> ActualizarPorId(string entityId, Usuario entity)
     {
-        var usuarioSeleccionado = await ObtenerEntidadPorId(entityId);
-
-        EntidadNoEncontrada<Usuario>.Apply(usuarioSeleccionado,
+        EntidadNoEncontrada<Usuario>.Apply(entity,
             TipoExcepcionNegocio.ErrorEntidadNoEncontrada.GetDescription(),
             (int)TipoExcepcionNegocio.ErrorEntidadNoEncontrada);
 
@@ -92,11 +90,11 @@ public class UsuarioUseCase : IUsuarioUseCase
     public async Task EliminarPorId(string entityId)
     {
         var usuarioSeleccionado = await ObtenerEntidadPorId(entityId);
-        
+
         EntidadNoEncontrada<Usuario>.Apply(usuarioSeleccionado,
             TipoExcepcionNegocio.ErrorEntidadNoEncontrada.GetDescription(),
             (int)TipoExcepcionNegocio.ErrorEntidadNoEncontrada);
-        
+
         await _usuarioRepository.EliminarAsync(usuarioSeleccionado.Id);
     }
 

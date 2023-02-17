@@ -1,10 +1,11 @@
-﻿using Domain.Model.Tests.Builders;
+﻿using Domain.Model.Entities.Usuario;
+using Domain.Model.Tests.Builders;
 
-namespace Helpers.ObjectsUtils.Tests.Factories.Usuario;
+namespace Helpers.ObjectsUtils.Tests.Factories.Usuarios;
 
 public abstract class UsuarioFactoryTest
 {
-    public static Domain.Model.Entities.Usuario.Usuario ObtenerUsuarioTest(string id, string nombre, string apellido, string cedula,
+    public static Usuario ObtenerUsuarioTest(string id, string nombre, string apellido, string cedula,
         string correo, int edad, string profesion) => new UsuarioBuilderTest()
         .SetId(id)
         .SetNombre(nombre)

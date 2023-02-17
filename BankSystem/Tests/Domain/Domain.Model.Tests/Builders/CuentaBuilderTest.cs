@@ -38,5 +38,5 @@ public class CuentaBuilderTest
         return this;
     }
 
-    public static Cuenta Build() => new(_id, _usuarioId, Banco, _capacidadEndeudamiento);
+    public Cuenta Build() => new(_id, _usuarioId, Banco, _capacidadEndeudamiento);
 }
