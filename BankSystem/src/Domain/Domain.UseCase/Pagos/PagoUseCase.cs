@@ -33,9 +33,7 @@ public class PagoUseCase : IPagoUseCase
     /// <returns></returns>
     public async Task<Pago> Crear(Pago entity)
     {
-        var creditoAPagar = await _creditoRepository.ObtenerEntidadPorIdAsync(entity.CreditoId);
-        creditoAPagar.RealizarPago(entity.Cantidad);
-        await _creditoRepository.ActualizarPorIdAsync(creditoAPagar.Id, creditoAPagar);
+        await PagarDeudaDeCredito(entity);
         entity.FechaPago = new FechaPago(DateTime.Now);
         return await _pagoRepository.CrearAsync(entity);
     }
@@ -53,4 +51,11 @@ public class PagoUseCase : IPagoUseCase
     /// <returns></returns>
     public async Task<Pago> ObtenerEntidadPorId(string entityId) =>
         await _pagoRepository.ObtenerEntidadPorIdAsync(entityId);
+
+    private async Task PagarDeudaDeCredito(Pago entity)
+    {
+        var creditoAPagar = await _creditoRepository.ObtenerEntidadPorIdAsync(entity.CreditoId);
+        creditoAPagar.RealizarPago(entity.Cantidad);
+        await _creditoRepository.ActualizarPorIdAsync(creditoAPagar.Id, creditoAPagar);
+    }
 }

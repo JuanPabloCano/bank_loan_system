@@ -35,10 +35,8 @@ public class PagoController : AppControllerBase<PagoController>
     /// <param name="pagoRequest"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<IActionResult> CrearPago([FromBody] PagoRequest pagoRequest)
-    {
-        return await HandleRequest(async () => await _pagoUseCase.Crear(pagoRequest.AsEntity()), "");
-    }
+    public async Task<IActionResult> CrearPago([FromBody] PagoRequest pagoRequest) =>
+        await HandleRequest(async () => await _pagoUseCase.Crear(pagoRequest.AsEntity()), "");
 
     /// <summary>
     /// Endpoint que retorna todas las entidad de tipo <see cref="Pago"/>
@@ -48,7 +46,6 @@ public class PagoController : AppControllerBase<PagoController>
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> ListarPagos() =>
         await HandleRequest(async () => await _pagoUseCase.ListarTodo(), "");
-
 
     /// <summary>
     /// Endpoint que retorna una entidad de tipo <see cref="Pago"/> por su Id

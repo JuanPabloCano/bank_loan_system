@@ -78,9 +78,4 @@ public class CreditoRepositoryAdapter : ICreditoRepository
             await _mongoCreditoCollection.FindOneAndReplaceAsync(credito => credito.Id == entityId, creditoData);
         return creditoActualizado.AsEntity();
     }
-
-    public async Task<Credito> RealizarPagoDeCreditoAsync(string creditoId, int cantidad)
-    {
-        throw new System.NotImplementedException();
-    }
 }

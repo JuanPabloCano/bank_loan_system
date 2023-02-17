@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using credinet.exception.middleware.models;
 using Domain.Model.Entities.Credito;
+using Domain.Model.Entities.Cuenta;
 using Domain.Model.Entities.Gateway;
 using Helpers.Commons.Exceptions;
 using Helpers.ObjectsUtils.Extensions;
@@ -38,17 +39,7 @@ public class CreditoUseCase : ICreditoUseCase
             TipoExcepcionNegocio.ErrorEntidadInvalida.GetDescription(),
             (int)TipoExcepcionNegocio.ErrorEntidadInvalida);
 
-        var cuentaSeleccionada = await _cuentaRepository.ObtenerEntidadPorIdAsync(entity.CuentaId);
-        if (cuentaSeleccionada.CapacidadEndeudamiento < entity.TotalPrestamo)
-        {
-            throw new BusinessException(
-                TipoExcepcionNegocio.ErrorCapacidadEndeudamientoInvalida.GetDescription(),
-                (int)TipoExcepcionNegocio.ErrorCapacidadEndeudamientoInvalida);
-        }
-
-        cuentaSeleccionada.DisminuirCapacidadEndeudamiento(entity.TotalPrestamo);
-
-        await _cuentaRepository.ActualizarPorIdAsync(cuentaSeleccionada.Id, cuentaSeleccionada);
+        await ValidarDatosDeCuenta(entity);
 
         return await _creditoRepository.CrearAsync(entity);
     }
@@ -94,23 +85,23 @@ public class CreditoUseCase : ICreditoUseCase
         await _creditoRepository.EliminarAsync(entityId);
     }
 
-    /// <summary>
-    /// <see cref="ICreditoUseCase.RealizarPagoDeCredito"/>
-    /// </summary>
-    /// <param name="creditoId"></param>
-    /// <param name="cantidad"></param>
-    /// <returns></returns>
-    public async Task<Credito> RealizarPagoDeCredito(string creditoId, int cantidad)
+    private async Task ValidarDatosDeCuenta(Credito entity)
     {
-        var credito = await ObtenerEntidadPorId(creditoId);
-        if (credito.DeudaActual == 0)
+        var cuentaSeleccionada = await _cuentaRepository.ObtenerEntidadPorIdAsync(entity.CuentaId);
+        if (cuentaSeleccionada.CapacidadEndeudamiento < entity.TotalPrestamo)
         {
             throw new BusinessException(
-                TipoExcepcionNegocio.ErrorDeudaActualPagada.GetDescription(),
-                (int)TipoExcepcionNegocio.ErrorDeudaActualPagada);
+                TipoExcepcionNegocio.ErrorCapacidadEndeudamientoInvalida.GetDescription(),
+                (int)TipoExcepcionNegocio.ErrorCapacidadEndeudamientoInvalida);
         }
 
-        credito.RealizarPago(cantidad);
-        return await ActualizarPorId(creditoId, credito);
+        await DisminuirCapacidadEndeudamientoDeCuenta(entity, cuentaSeleccionada);
+    }
+
+    private async Task DisminuirCapacidadEndeudamientoDeCuenta(Credito entity, Cuenta cuentaSeleccionada)
+    {
+        cuentaSeleccionada.DisminuirCapacidadEndeudamiento(entity.TotalPrestamo);
+
+        await _cuentaRepository.ActualizarPorIdAsync(cuentaSeleccionada.Id, cuentaSeleccionada);
     }
 }
