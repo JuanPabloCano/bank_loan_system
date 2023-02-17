@@ -44,5 +44,5 @@ public class CreditoBuilderTest
         return this;
     }
 
-    public static Credito Build() => new(_id, _usuarioId, _cuentaId, _totalPrestamo, _deudaActual);
+    public Credito Build() => new(_id, _usuarioId, _cuentaId, _totalPrestamo, _deudaActual);
 }

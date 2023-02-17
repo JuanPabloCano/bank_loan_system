@@ -1,5 +1,4 @@
 ﻿using credinet.exception.middleware.models;
-using Domain.Model.Entities.Cuenta;
 using Domain.Model.Entities.Gateway;
 using Domain.Model.Entities.Usuario;
 using Domain.Model.Tests.Builders;
