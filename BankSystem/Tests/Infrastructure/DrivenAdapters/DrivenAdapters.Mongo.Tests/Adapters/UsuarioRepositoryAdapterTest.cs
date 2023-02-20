@@ -102,8 +102,7 @@ public class UsuarioRepositoryAdapterTest
     public async Task Actualizar_Usuario_Exitoso(string id, string nombre, string apellido,
         string cedula, string correo, int edad, string profesion)
     {
-        var usuario =
-            UsuarioFactoryTest.ObtenerUsuarioTest(id, nombre, apellido, cedula, correo, edad, profesion);
+        var usuario = UsuarioFactoryTest.ObtenerUsuarioTest(id, nombre, apellido, cedula, correo, edad, profesion);
 
         var usuarioActualizar = new UsuarioBuilderTest()
             .SetId(usuario.Id)

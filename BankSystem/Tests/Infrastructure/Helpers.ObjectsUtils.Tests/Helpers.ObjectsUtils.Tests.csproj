@@ -18,6 +18,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\src\Domain\Domain.Model\Domain.Model.csproj" />
+      <ProjectReference Include="..\..\..\src\Infrastructure\EntryPoints\EntryPoints.ReactiveWeb\EntryPoints.ReactiveWeb.csproj" />
       <ProjectReference Include="..\..\Domain\Domain.Model.Tests\Domain.Model.Tests.csproj" />
     </ItemGroup>
 

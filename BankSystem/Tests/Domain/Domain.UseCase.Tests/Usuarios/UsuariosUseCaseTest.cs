@@ -28,7 +28,7 @@ public class UsuariosUseCaseTest
     {
         _mockUsuarioRepository
             .Setup(repository => repository.ListarTodoAsync())
-            .ReturnsAsync(ListarUsuariosTest);
+            .ReturnsAsync(UsuarioFactoryTest.ListarUsuariosTest);
 
         List<Usuario> usuarios = await _usuarioUseCase.ListarTodo();
 
@@ -145,30 +145,4 @@ public class UsuariosUseCaseTest
         Assert.Equal(usuarioActualizado.Id, usuarioActualizado.Id);
         Assert.IsType<Usuario>(usuarioActualizado);
     }
-
-    #region Private Methods
-
-    private static List<Usuario> ListarUsuariosTest() => new()
-    {
-        new UsuarioBuilderTest()
-            .SetId("12345678")
-            .SetNombre("Juan")
-            .SetApellido("Cano")
-            .SetCedula("8956735")
-            .SetCorreo("juan@gmail.com")
-            .SetEdad(26)
-            .SetProfesion("Desarrollador")
-            .Build(),
-        new UsuarioBuilderTest()
-            .SetId("10456783")
-            .SetNombre("catalina")
-            .SetApellido("Alvarez")
-            .SetCedula("152436734")
-            .SetCorreo("cata@gmail.com")
-            .SetEdad(25)
-            .SetProfesion("Desarrolladora")
-            .Build()
-    };
-
-    #endregion Private Methods
 }
