@@ -5,7 +5,6 @@ using Domain.Model.Tests.Builders;
 using Domain.UseCase.Common;
 using Domain.UseCase.Usuarios;
 using EntryPoints.ReactiveWeb.Controllers.Usuarios;
-using EntryPoints.ReactiveWeb.Entities.Usuarios;
 using Helpers.Commons.Exceptions;
 using Helpers.ObjectsUtils;
 using Helpers.ObjectsUtils.Tests.Factories.Usuarios;
@@ -106,7 +105,7 @@ public class UsuarioControllerTest
         Assert.NotNull(result);
         Assert.Equal(id, usuario.Id);
     }
-    
+
     [Fact]
     public async Task CrearUsuario_Con_Excepcion_De_Negocio()
     {

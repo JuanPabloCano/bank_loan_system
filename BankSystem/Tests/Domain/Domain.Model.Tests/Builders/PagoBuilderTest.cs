@@ -45,5 +45,5 @@ public class PagoBuilderTest
         return this;
     }
 
-    public static Pago Build() => new(_id, _usuarioId, _creditoId, _cantidad, FechaPago);
+    public Pago Build() => new(_id, _usuarioId, _creditoId, _cantidad, FechaPago);
 }

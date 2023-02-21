@@ -19,7 +19,7 @@ public class CreditoUseCaseTest
 
     public CreditoUseCaseTest()
     {
-        _mockRepository = new MockRepository(MockBehavior.Loose);
+        _mockRepository = new MockRepository(MockBehavior.Strict);
         _mockCreditoRepository = new Mock<ICreditoRepository>();
         _mockCuentaRepository = new Mock<ICuentaRepository>();
         _creditoUseCase = new(_mockCreditoRepository.Object, _mockCuentaRepository.Object);
