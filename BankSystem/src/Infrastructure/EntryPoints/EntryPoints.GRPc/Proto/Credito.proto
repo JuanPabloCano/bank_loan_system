@@ -1,0 +1,55 @@
+﻿syntax = "proto3";
+
+package creditos;
+
+import "google/protobuf/any.proto";
+
+option csharp_namespace = "EntryPoints.GRPc.Protos";
+
+// Requests
+message CrearUsuarioRequest {
+  string Nombre = 1;
+  string Apellido = 2;
+  string Cedula = 3;
+  string Correo = 4;
+  int32 Edad = 5;
+  string Profesion = 6;
+}
+
+message CrearCreditoRequest {
+  string usuarioId = 2;
+  string cuentaId = 3;
+  int32 totalPrestamo = 4;
+  int32 deudaTotal = 5;
+}
+
+// Responses
+message StandardResponse {
+  google.protobuf.Any data = 1;
+  bool error = 2;
+  string message = 3;
+}
+
+message Usuario {
+  string id = 1;
+  string Nombre = 2;
+  string Apellido = 3;
+  string Cedula = 4;
+  string Correo = 5;
+  int32 Edad = 6;
+  string Profesion = 7;
+}
+
+message Credito {
+  string id = 1;
+  string usuarioId = 2;
+  string cuentaId = 3;
+  int32 totalPrestamo = 4;
+  int32 deudaTotal = 5;
+}
+
+// Services
+service UsuariosServices {
+  rpc CrearUsuario(CrearUsuarioRequest) returns (StandardResponse);
+  rpc CrearCredito(CrearCreditoRequest) returns (StandardResponse);
+}

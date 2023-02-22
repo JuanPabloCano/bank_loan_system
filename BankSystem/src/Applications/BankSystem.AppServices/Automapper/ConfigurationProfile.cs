@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Domain.Model.Entities;
+using Domain.Model.Entities.Credito;
 using Domain.Model.Entities.Usuario;
 using DrivenAdapters.Mongo.Entities.Usuarios;
+using GrpcModels = EntryPoints.GRPc.Protos;
 
 namespace BankSystem.AppServices.Automapper
 {
@@ -16,6 +18,8 @@ namespace BankSystem.AppServices.Automapper
         public ConfigurationProfile()
         {
             CreateMap<Usuario, UsuarioData>().ReverseMap();
+            CreateMap<Usuario, GrpcModels.Usuario>().ReverseMap();
+            CreateMap<Credito, GrpcModels.Credito>().ReverseMap();
         }
     }
 }
