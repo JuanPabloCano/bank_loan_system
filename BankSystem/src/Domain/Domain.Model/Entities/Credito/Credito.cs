@@ -29,17 +29,7 @@ public class Credito
     /// Deuda Actual
     /// </summary>
     public int DeudaActual { get; set; }
-
-    /// <summary>
-    /// Propiedad virtual de clase <see cref="Usuario"/>
-    /// </summary>
-    public virtual Usuario.Usuario Usuario { get; set; }
-
-    /// <summary>
-    /// Propiedad virtual de clase <see cref="Cuenta"/>
-    /// </summary>
-    public virtual Cuenta.Cuenta Cuenta { get; set; }
-
+    
     /// <summary>
     /// Constructor vacio
     /// </summary>
