@@ -8,12 +8,12 @@ option csharp_namespace = "EntryPoints.GRPc.Protos";
 
 // Requests
 message CrearUsuarioRequest {
-  string Nombre = 1;
-  string Apellido = 2;
-  string Cedula = 3;
-  string Correo = 4;
-  int32 Edad = 5;
-  string Profesion = 6;
+  string nombre = 1;
+  string apellido = 2;
+  string cedula = 3;
+  string correo = 4;
+  int32 edad = 5;
+  string profesion = 6;
 }
 
 message CrearCreditoRequest {
@@ -32,12 +32,12 @@ message StandardResponse {
 
 message Usuario {
   string id = 1;
-  string Nombre = 2;
-  string Apellido = 3;
-  string Cedula = 4;
-  string Correo = 5;
-  int32 Edad = 6;
-  string Profesion = 7;
+  string nombre = 2;
+  string apellido = 3;
+  string cedula = 4;
+  string correo = 5;
+  int32 edad = 6;
+  string profesion = 7;
 }
 
 message Credito {
