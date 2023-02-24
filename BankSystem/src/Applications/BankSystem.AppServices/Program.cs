@@ -1,6 +1,11 @@
-﻿using credinet.comun.api;
+﻿using System.IO;
+using System.Linq;
+using BankSystem.AppServices.Extensions;
+using BankSystem.AppServices.Extensions.Health;
+using credinet.comun.api;
 using credinet.comun.api.Swagger.Extensions;
 using credinet.exception.middleware;
+using EntryPoints.GRPc.RPCs.Creditos;
 using Helpers.ObjectsUtils;
 using Helpers.ObjectsUtils.Setting;
 using Microsoft.AspNetCore.Builder;
@@ -11,11 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.PlatformAbstractions;
 using SC.Configuration.Provider.Mongo;
-using BankSystem.AppServices.Extensions;
-using BankSystem.AppServices.Extensions.Health;
 using Serilog;
-using System.IO;
-using System.Linq;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -74,6 +75,8 @@ builder.Services
 
 #endregion Service Configuration
 
+builder.Services.AddGrpc();
+
 WebApplication app = builder.Build();
 
 var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
@@ -113,4 +116,5 @@ app.UseHttpsRedirection();
 app.UseAmbienteHeaderMiddleware();
 app.UseOrigenHeaderMiddleware();
 app.MapControllers();
+app.MapGrpcService<RpcServiceCreditos>();
 app.Run();
